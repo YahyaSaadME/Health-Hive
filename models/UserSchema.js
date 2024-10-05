@@ -9,6 +9,8 @@ const UserSchema = new mongoose.Schema({
     address: { type: String, required: true },
     bloodGroup: { type: String, required: true },
     phoneNumber: { type: String, required: true },
+    otp:{type:String},
+    verified:{type:Boolean,default:false}
 }, { timestamps: true });
 
 // Hash password before saving the user model

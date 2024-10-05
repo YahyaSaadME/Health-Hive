@@ -4,10 +4,17 @@ const User = require('../../models/UserSchema');  // Assuming the model is in mo
 const jwt = require('jsonwebtoken');
 const authAuth = require('../../utils/userAuth');
 const DoctorSchema = require('../../models/DoctorSchema');
+const sendOTP = require('../../utils/otpSender');
+const otpGenerator = require('otp-generator');
+
+const OTP_LENGTH = 6;
+const OTP_CONFIG = {
+    upperCaseAlphabets: false,
+    specialChars: false
+};
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Signup Route
 UR.post('/signup', async (req, res) => {
     const { name, email, password, address, bloodGroup, phoneNumber } = req.body;
 
@@ -18,23 +25,54 @@ UR.post('/signup', async (req, res) => {
             return res.status(400).json({ msg: 'User already exists' });
         }
 
-        // Create new user
+        // Create new user but don't save immediately
         user = new User({
             name,
             email,
             password,
             address,
             bloodGroup,
-            phoneNumber
+            phoneNumber,
+            otp: otpGenerator.generate(OTP_LENGTH, OTP_CONFIG) // Generate OTP
         });
 
+        // Send OTP via email
+        await sendOTP(email, user.otp);
+
         // Save user in the database
+        await user.save();
+
+        res.status(201).json({ msg: 'Signup successful! Please check your email for OTP to verify your account.' });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server error');
+    }
+});
+
+UR.post('/verify/otp', async (req, res) => {
+    const { email, otp } = req.body;
+
+    try {
+        // Find the user by email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ msg: 'Invalid email' });
+        }
+
+        // Verify OTP
+        if (user.otp !== otp) {
+            return res.status(400).json({ msg: 'Invalid OTP' });
+        }
+
+        // Clear OTP and mark user as verified
+        user.otp = undefined; // Clear OTP after successful verification
+        user.verified = true; // Clear OTP after successful verification
         await user.save();
 
         // Create JWT token
         const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(201).json({ token, user: { name: user.name, email: user.email, address: user.address, bloodGroup: user.bloodGroup, phoneNumber: user.phoneNumber } });
+        res.json({ token, user: { name: user.name, email: user.email, address: user.address, bloodGroup: user.bloodGroup, phoneNumber: user.phoneNumber } });
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server error');
@@ -48,6 +86,7 @@ UR.post('/login', async (req, res) => {
     try {
         // Check if user exists
         const user = await User.findOne({ email });
+        
         if (!user) {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
@@ -58,8 +97,13 @@ UR.post('/login', async (req, res) => {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
 
+        const isVerified = await user.verified
+        if(!isVerified){
+            return res.status(400).json({ msg: 'Verify your aaccount' });
+        }
+
         // Create JWT token
-        const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
 
         res.json({ token, user: { name: user.name, email: user.email, address: user.address, bloodGroup: user.bloodGroup, phoneNumber: user.phoneNumber } });
     } catch (error) {

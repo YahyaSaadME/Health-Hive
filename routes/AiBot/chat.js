@@ -116,7 +116,7 @@ class BlackBox {
   }
 }
 
-const blackbox = new BlackBox("fa964251-a536-4e8b-9414-1eba4f6f33f1");
+const blackbox = new BlackBox("6fc615cc-ab57-4a10-a868-cf95a0c6397e");
 CR.post("/", (req, res) => {
   try {
     const { message } = req.body;
@@ -129,7 +129,7 @@ CR.post("/", (req, res) => {
       })
       .catch((error) => {
         console.error("Error in chat:", error);
-        res.json({ message: "Server Error" });
+        res.json({ message: "Server error" });
       });
   } catch (e) {
     res.json({ mesage: "Server error" });

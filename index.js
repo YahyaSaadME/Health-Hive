@@ -18,6 +18,9 @@ app.get('/', (req, res) => {
 app.get('/chat', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'chat.html'));
 });
+app.get('/chat/history', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'chathistory.html'));
+});
 
 
 app.listen(process.env.PORT  || 5000,()=>{

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Chat History</title>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Lexend", sans-serif;
+      font-optical-sizing: auto;
+    }
+
+    :root {
+      --primary-blue: #bad7e9;
+      --secondary-blue: #a6cee3;
+      --dark-blue: #2b3467;
+      --light-gray: #f8fafc;
+      --white: #ffffff;
+    }
+
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--white);
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      background-color: var(--white);
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 260px;
+      background-color: var(--light-gray);
+      color: var(--dark-blue);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      border-right: 1px solid var(--primary-blue);
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      /* Replace this with your actual logo */
+      /* background-image: "asd.png"; */
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    .brand {
+      font-weight: 600;
+      color: var(--dark-blue);
+    }
+
+    .menu-item {
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--black);
+      transition: background-color 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .menu-item:hover {
+      background-color: var(--primary-blue);
+      color: var(--dark-blue);
+    }
+
+    .menu-item-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+
+    .upgrade-box {
+      background: linear-gradient(
+        135deg,
+        var(--primary-blue),
+        var(--secondary-blue)
+      );
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      margin-top: auto;
+      color: var(--dark-blue);
+    }
+
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--white);
+    }
+
+    .chat-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--primary-blue);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--white);
+    }
+
+    .messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: var(--light-gray);
+    }
+
+    .message {
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      max-width: 80%;
+      line-height: 1.5;
+    }
+
+    .bot-message {
+      background-color: var(--primary-blue);
+      color: var(--dark-blue);
+      align-self: flex-start;
+    }
+
+    .user-message {
+      background-color: var(--secondary-blue);
+      color: var(--dark-blue);
+      align-self: flex-end;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 20px;
+      background-color: var(--white);
+      border-top: 1px solid var(--primary-blue);
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--primary-blue);
+      margin-right: 10px;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .chat-input input:focus {
+      border-color: var(--secondary-blue);
+      box-shadow: 0 0 0 3px rgba(166, 206, 227, 0.1);
+    }
+
+    .chat-input button {
+      padding: 12px 20px;
+      background-color: var(--primary-blue);
+      color: var(--dark-blue);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-weight: 500;
+    }
+
+    .chat-input button:hover {
+      background-color: var(--secondary-blue);
+    }
+    .box {
+      border: 0.5px solid #333;
+      padding: 20px;
+      margin: 5px 5px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 7px -5px black;
+      color: rgb(0, 21, 97);
+      background-color: #ffffff;
+    }
+    h3 {
+      margin-top: 0;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .priority {
+      font-weight: bold;
+    }
+    .loader {
+      border: 5px solid #f3f3f3; /* Light grey */
+      border-top: 5px solid #000000; /* Blue */
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    /* Spin animation */
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <!-- <div class="logo"><img src="/assets/HealthHiveLogo.png" alt="" style="height: 100px;"/></div> -->
+          <span class="brand" style="font-weight: 700; font-size: 30px"
+            >Medical Assistant</span
+          >
+        </div>
+        <nav class="nav-menu">
+          <a href="/chat/history" style="text-decoration: none">
+            <div class="menu-item">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0011_egQ7hd3J4z2OYygpo_UVk6iQSCO54A&s"
+                alt="Medical History"
+                class="menu-item-icon"
+              />
+              Medical History
+            </div>
+          </a>
+          <div class="menu-item">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQReyrGTMWDMFnDwZuqXZnSMieQWlYhWp9lw&s"
+              alt="Appointments"
+              class="menu-item-icon"
+            />
+            Appointments
+          </div>
+          <div class="menu-item">
+            <img
+              src="https://static.vecteezy.com/system/resources/previews/003/374/521/original/lab-test-results-icon-on-white-vector.jpg"
+              alt="Test Results"
+              class="menu-item-icon"
+            />
+            Test Results
+          </div>
+
+          <div class="menu-item">
+            <img
+              src="https://cdn-icons-png.freepik.com/512/7133/7133331.png"
+              alt="Settings"
+              class="menu-item-icon"
+            />
+            Settings
+          </div>
+        </nav>
+        <div class="upgrade-box">
+          <h3>Premium Care</h3>
+          <p>Upgrade for priority support</p>
+        </div>
+      </div>
+
+      <div class="chat-area">
+        <div class="chat-header">
+          <span>Medical Consultation</span>
+          <div class="header-icons">
+            <span class="icon">History</span>
+            <span class="icon">Settings</span>
+          </div>
+        </div>
+
+        <div class="messages">
+          <div
+            id="messageContainer"
+            style="display: flex; justify-content: space-between; padding: 5px"
+          >
+            <div style="width: 50%">
+              <div style="display: flex; min-width: 60%">
+                <div class="box">
+                  <h3>Medicines</h3>
+                  <ul id="medicine"></ul>
+                </div>
+                <div style="min-width: 40%; margin-left: 10px">
+                  <div class="box" style="margin-left: -5px; height: 47%">
+                    Consut a doctor
+                    <h4 id="priority"></h4>
+                  </div>
+                  <div class="box" style="margin-left: -5px; height: 47%">
+                    Doctor Specialit
+                    <h4 id="sep"></h4>
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex">
+                <div class="box">
+                  <h3>Causes</h3>
+                  <ul id="causes"></ul>
+                </div>
+                <div class="box" style="margin-left: 4px">
+                  <h3>Diet</h3>
+                  <ul id="diet"></ul>
+                </div>
+              </div>
+            </div>
+            <div style="width: 50%; padding: 10px 20px">
+              <h4 style="font-weight: bold">Doctor list</h4>
+              <ul>
+                <li
+                  style="
+                    text-decoration: none;
+                    list-style: none;
+                    margin: 2px;
+                    padding: 5px;
+                  "
+                >
+                  <h5>Dr.Joe, MBBS, MD.</h5>
+                  <h5 style="font-weight: 600">Consultaion fee 100 Rs /-</h5>
+                </li>
+                <li
+                  style="
+                    text-decoration: none;
+                    list-style: none;
+                    margin: 2px;
+                    padding: 5px;
+                  "
+                >
+                  <h5>Dr.Joe, MBBS, MD.</h5>
+                  <h5 style="font-weight: 600">Consultaion fee 100 Rs /-</h5>
+                </li>
+                <li
+                  style="
+                    text-decoration: none;
+                    list-style: none;
+                    margin: 2px;
+                    padding: 5px;
+                  "
+                >
+                  <h5>Dr.Joe, MBBS, MD.</h5>
+                  <h5 style="font-weight: 600">Consultaion fee 100 Rs /-</h5>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            id="beforeMessage"
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              height: 60vh;
+            "
+          >
+            <img src="/assets/HealthHiveLogo.png" alt="" style="height: 80px" />
+
+            <h4 style="font-size: 40px; font-weight: bolder">
+              Consult with your Ai.
+            </h4>
+            <p>Ask a question below</p>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 60vh;
+            "
+          >
+            <div id="loader" class="loader"></div>
+          </div>
+        </div>
+
+        <div class="chat-input">
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Describe your symptoms or ask a medical question..."
+          />
+          <button onclick="handleSend()">Send</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
