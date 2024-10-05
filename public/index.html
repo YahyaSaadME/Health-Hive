@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLock HealthCare</title>
+    <style>
+         body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'SF Pro Display', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .page-container {
+            position: relative;
+            height: 100vh;
+            background: #D2D9DF;
+            margin: 0 auto;
+            overflow: hidden;
+            
+        }
+        .group-1 {
+            position: absolute;
+            width: 515px;
+            height: 411px;
+            left: 56px;
+            top: 0px;
+        }
+        .group-1 .rectangle-8 {
+            position: absolute;
+            width: 259px;
+            height: 160px;
+            left: 0;
+            top: 0;
+            background: #739EBE;
+            border-radius: 31.0408px;
+        }
+        .group-1 .rectangle-9 {
+            position: absolute;
+            width: 256px;
+            height: 259px;
+            left: 259px;
+            top: 152px;
+            background: #739EBE;
+            border-radius: 31.0408px;
+        }
+       /* .group-1 .rectangle-10 {
+            position: absolute;
+            width: 120.12px;
+            height: 71.07px;
+            left: 189.71px;
+            top: 105px;
+            background: #739EBE;
+            transform: rotate(38.98deg);
+        }*/
+        .rectangle-11 {
+            position: absolute;
+            width: 235px;
+            height: 478px;
+            left: 56px;
+            top: 221px;
+            background: #FFFFFF;
+            border-radius: 40.5918px;
+        }
+        .group-2 {
+            position: absolute;
+            width: 507px;
+            height: 506px;
+            left: 56px;
+            top: 488px;
+            transform: matrix(-1, 0, 0, 1, 0, 0);
+        }
+        .group-2 .rectangle-8 {
+            position: absolute;
+            width: 250px;
+            height: 248px;
+            left: 0;
+            top: 0;
+            background: #FEFEFE;
+            border-radius: 31.0408px;
+            transform: matrix(-1, 0, 0, 1, 0, 0);
+        }
+        .group-2 .rectangle-9 {
+            position: absolute;
+            width: 260px;
+            height: 258px;
+            left: 246px;
+            top: 248px;
+            background: #FEFEFE;
+            border-radius: 31.0408px;
+            transform: matrix(-1, 0, 0, 1, 0, 0);
+        }
+      /*  .group-2 .rectangle-10 {
+            position: absolute;
+            width: 124.25px;
+            height: 66.33px;
+            left: 180.74px;
+            top: 202px;
+            background: #FEFEFE;
+            transform: matrix(-0.78, -0.63, 0.63, -0.78, 0, 0);
+        }*/
+      /*  .bottom-circle {
+            position: absolute;
+            width: 235px;
+            height: 235px;
+            left: 345px;
+            top: 776px;
+            background: #191B1A;
+            border-radius: 50%;
+        }*/
+        .rectangle-13 {
+            box-sizing: border-box;
+            position: absolute;
+            width: 761px;
+            height: 519px;
+            left: 599px;
+            top: 143px;
+            border: 4px solid #FFFFFF;
+            border-radius: 23px;
+        }
+      /*  .ellipse-2 {
+            position: absolute;
+            width: 182px;
+            height: 182px;
+            left: 1104px;
+            top: 685px;
+            background: #FFFFFF;
+            border-radius: 50%;
+        }*/
+        .line-1 {
+            position: absolute;
+            width: 638px;
+            height: 0px;
+            left: 660px;
+            top: 897px;
+            border: 1px solid #FFFFFF;
+        }
+        .ellipse-3 {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            left: 1181px;
+            top: 523px;
+            background: #141613;
+            border-radius: 50%;
+        }
+        .ellipse-4 {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            left: 1240px;
+            top: 523px;
+            background: #5E829B;
+            border-radius: 50%;
+        }
+        .ellipse-5 {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            left: 680px;
+            top: 916px;
+            background: #5E829B;
+            border-radius: 75%;
+            transform: matrix(-1, 0, 0, 1, 0, 0);
+        }
+        .group-3 {
+            position: absolute;
+            width: 104px;
+            height: 38px;
+            left: 1256px;
+            top: 44px;
+        }
+        .group-3 .rectangle-15 {
+            box-sizing: border-box;
+            position: absolute;
+            width: 104px;
+            height: 38px;
+            left: 0;
+            top: 0;
+            border: 2px solid #000000;
+            border-radius: 40px;
+        }
+        .sign-up {
+            position: absolute;
+            width: 75px;
+            height: 26px;
+            left: 15px;
+            top: 6px;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 15px;
+            line-height: 26px;
+            text-align: center;
+            text-transform: capitalize;
+            color: #000000;
+        }
+        .documentation-ease {
+             /*   position: absolute;
+            width: 177px;
+            height: 21px;
+            left: 660px;
+            top: 741px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 21px;
+            text-transform: capitalize;
+            color: #000000;
+            transform: matrix(1, 0, 0, 1, 0, 0);*/
+            position: absolute;
+            width: 414px;
+            height: 80px;
+            left: 660px;
+            top: 781px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 33.7815px;
+            line-height: 1;
+            text-transform: capitalize;
+            color: #000000;
+            transform: matrix(1, 0, 0, 1, 0, -100);
+        }
+        .feature-description {
+            position: absolute;
+            width: 472px;
+            height: 21px;
+            left: 660px;
+            top: 360px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 21px;
+            text-transform: capitalize;
+            color: #000000;
+        }
+        .group-4 {
+            position: absolute;
+            width: 252px;
+            height: 74px;
+            left: 660px;
+            top: 523px;
+        }
+        .group-4 .rectangle-14 {
+            position: absolute;
+            width: 252px;
+            height: 74px;
+            left: 0;
+            top: 0;
+            background: #fbfdfd;
+            border-radius: 40px;
+        }
+        .join-us {
+            position: absolute;
+            width: 125px;
+            height: 48px;
+            left: 64px;
+            top: 13px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 30px;
+            line-height: 48px;
+            text-align: center;
+            text-transform: capitalize;
+            color: #000000;
+        }
+        .ai-assistance {
+            position: absolute;
+            width: 157px;
+            height: 21px;
+            left: 788px;
+            top: 946px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 21px;
+            text-transform: capitalize;
+            color: #000000;
+        }
+        .upload-description {
+              position: absolute;
+            width: 177px;
+            height: 21px;
+            left: 660px;
+            top: 741px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 1;
+            text-transform: capitalize;
+            color: #000000;
+            transform: matrix(1, 0, 0, 1, 0, 65);
+      
+        }
+        .main-heading {
+            position: absolute;
+            width: 660px;
+            height: 120px;
+            left: 660px;
+            top: 204px;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 50px;
+            line-height: 60px;
+            text-transform: capitalize;
+            color: #000000;
+        }
+       /* .rectangle-16 {
+            position: absolute;
+            width: 405px;
+            height: 68px;
+            left: 406px;
+            top: 37px;
+        }*/
+        a:link{
+          color: #000000;
+          text-decoration: none;
+        }
+        a:visited{
+            color: #000000;
+            text-decoration: none; 
+        }
+        a:hover{
+            color: #000000;
+            text-decoration: none;
+        }
+   
+    
+        .flex-container {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-container > div {
+  margin: 10px;
+  margin-top: 40px;
+  padding: 10px;
+  font-size: 20px;
+  font-style: nl;
+}
+#AI{
+    height: 100%;
+    width: 100%;
+    border-radius: 60%;
+}
+#ai{
+    height: 100%;
+    width: 100%;
+    border-radius: 30%;
+    align-items: center;
+}
+#graph{
+    height: 85%;
+    width: 85%;
+    transform: scaleX(-1);
+    border-radius: 20%;
+    transform: matrix(-1, 0, 0, 1, 15, 30);
+}
+#sthethoscope{
+    width: 250px;
+    height: 250px;
+    border-radius: 10%;
+    background-blend-mode: overlay;
+    transform: matrix(-1, 0, 0, 1, 1, 25);
+    transform: rotate(0deg);
+}
+.ic--sharp-call {
+  display: inline-block;
+  width: 75%;
+  height: 75%;
+  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='m21 15.46l-5.27-.61l-2.52 2.52a15.05 15.05 0 0 1-6.59-6.59l2.53-2.53L8.54 3H3.03C2.45 13.18 10.82 21.55 21 20.97z'/%3E%3C/svg%3E");
+  background-color: currentColor;
+  -webkit-mask-image: var(--svg);
+  mask-image: var(--svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  transform: matrix(-1, 0, 0, 1, 15, 15);
+ transform: rotate(10deg);
+}
+.fa-solid--laptop-medical {
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath fill='white' d='M232 224h56v56a8 8 0 0 0 8 8h48a8 8 0 0 0 8-8v-56h56a8 8 0 0 0 8-8v-48a8 8 0 0 0-8-8h-56v-56a8 8 0 0 0-8-8h-48a8 8 0 0 0-8 8v56h-56a8 8 0 0 0-8 8v48a8 8 0 0 0 8 8M576 48a48.14 48.14 0 0 0-48-48H112a48.14 48.14 0 0 0-48 48v336h512zm-64 272H128V64h384zm112 96H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33-17.47-32.77-32H16a16 16 0 0 0-16 16v16a64.19 64.19 0 0 0 64 64h512a64.19 64.19 0 0 0 64-64v-16a16 16 0 0 0-16-16'/%3E%3C/svg%3E");
+  transform: matrix(-1, 0, 0, 1, 18, 18);
+}
+.iconoir--healthcare {
+  display: inline-block;
+  width: 60%;
+  height: 60%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'%3E%3Cpath d='m18 20l3.824-3.824a.6.6 0 0 0 .176-.424V10.5A1.5 1.5 0 0 0 20.5 9v0a1.5 1.5 0 0 0-1.5 1.5V15'/%3E%3Cpath d='m18 16l.858-.858a.48.48 0 0 0 .142-.343v0a.49.49 0 0 0-.268-.433l-.443-.221a2 2 0 0 0-2.308.374l-.895.895a2 2 0 0 0-.586 1.414V20M6 20l-3.824-3.824A.6.6 0 0 1 2 15.752V10.5A1.5 1.5 0 0 1 3.5 9v0A1.5 1.5 0 0 1 5 10.5V15'/%3E%3Cpath d='m6 16l-.858-.858A.5.5 0 0 1 5 14.799v0c0-.183.104-.35.268-.433l.443-.221a2 2 0 0 1 2.308.374l.895.895a2 2 0 0 1 .586 1.414V20m4.167-8h-3.334V9.667H8V6.333h2.333V4h3.334v2.333H16v3.334h-2.333z'/%3E%3C/g%3E%3C/svg%3E");
+  transform: matrix(-1, 0, 0, 1, 16, 11);
+}
+#PR{
+    height: 490px;;
+    width: 235px;
+    border-radius: 10%;
+}
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="group-1">
+            <div class="rectangle-8" style="display: flex;justify-content: center;align-items: center;"><img src="assets/HealthHiveLogo.png" style="border-radius: 0px;width: 200px;height: auto;" id="ai" alt="AI"></div>
+            <div class="rectangle-9"><img src="/assets/AI.jpg" id="AI" alt="AI"></div>
+            <div class="rectangle-10"></div>
+        </div>
+        <div class="rectangle-11"><img src="assets/pr.jpg" id="PR" alt="PR"></div>
+        <div class="group-2">
+            <div class="rectangle-8"><img src="assets/sthethoscope.jpg" id="sthethoscope" alt="Stethoscope"></div>
+            <div class="rectangle-9"><img src='assets/graph.jpg' id="graph" alt="Graph"></div>
+            <div class="rectangle-10"></div>
+        </div>
+        <div class="bottom-circle"></div>
+        <div class="rectangle-13"></div>
+        <div class="ellipse-2"></div>
+        <div class="line-1"></div>
+        <div class="ellipse-3"><span class="fa-solid--laptop-medical"></span></div>
+        <div class="ellipse-4"><span class="iconoir--healthcare"></span></div>
+        <div class="ellipse-5"><span class="ic--sharp-call"></span></div>
+        <div class="group-3">
+            <div class="rectangle-15"></div>
+            <div class="sign-up"><a href="{{ url_for('register') }}"><b>Sign Up</b></a>
+            </div>
+        </div>
+        <div class="upload-description">Analyze your symptoms for a quick, preliminary diagnosis</div>
+        <div class="feature-description">Upload, organize, and manage all your medical records and prescriptions effortlessly</div>
+        <div class="group-4">
+            <div class="rectangle-14"></div>
+            <div class="join-us"><a href="#">Join Us</a></div>
+        </div>
+        <div class="ai-assistance"><b>AI Calling Assistance</b></div>
+        <div class="documentation-ease">Get Ready To Embark On Our New AI Powered Chatbot</div>
+        <div class="main-heading">Upload All Your Medical <br> Document With Ease</div>
+            <div class="flex-container">
+                <div><b>Upload Document</b></div>
+       
+                <div><a href="/chat"><b>Chat with AI</b></a></div>
+                <div><b>Contact Us</b></div>  
+              </div>
+</body>
+</html>
