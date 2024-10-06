@@ -255,6 +255,59 @@
         }
       }
     </style>
+    <style>
+      /* Styles for chat area and input */
+      .chat-area {
+        width: 100%;
+        margin: 0 auto;
+      }
+  
+      .chat-input {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        align-items: center;
+      }
+  
+      .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-left: 10px;
+      }
+  
+      .attachment-preview {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        width: 200px;
+      }
+  
+      .attachment-preview span {
+        font-size: 14px;
+        margin-right: 10px;
+      }
+  
+      .attachment-preview .remove-btn {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        color: red;
+      }
+  
+      /* Hide file input */
+      input[type="file"] {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -383,57 +436,23 @@
         <div class="chat-header">
           <span>Medical Consultation</span>
         </div>
-
+    
         <div class="messages">
-          <div id="messageContainer" style="display: none">
-            <div>
-              <div class="box">
-                <h3>Medicines</h3>
-                <ul id="medicine"></ul>
-              </div>
-              <div class="box">
-                <h3>Consultation Priority</h3>
-                <p id="priority"></p>
-              </div>
-              <div class="box">
-                <h3>Specialist Required</h3>
-                <p id="sep"></p>
-              </div>
-              <div class="box">
-                <h3>Causes</h3>
-                <ul id="causes"></ul>
-              </div>
-              <div class="box">
-                <h3>Diet</h3>
-                <ul id="diet"></ul>
-              </div>
-            </div>
-            <div class="box">
-              <h3>Doctor List</h3>
-              <ul id="doctorList">
-                <li style="list-style: none;">
-                    <h4>Dr. John Doe, MBBS, MD.</h4>
-                    <h5>Cosntation fee: ₹ 400 </h5>
-                    <h5>Cardioligist</h5>
-                    <h5>OneHospital - Tambarm Chennai Tamil Nadu, 635802</h5>
-                    <div style="padding: 5px 10px; width: 100%;background-color: black;color: white;">Get Appointment</div>                    
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div id="beforeMessage">
-            <img src="/assets/HealthHiveLogo.png" alt="HealthHive Logo" />
-            <h4>Consult with your AI.</h4>
-            <p>Ask a question below</p>
-          </div>
-
-          <div id="loader" style="display: none">
-            <div class="loader"></div>
-          </div>
+          <!-- Existing content -->
         </div>
-
+    
+        <!-- Attachment preview will be shown here -->
+        
+        <div id="attachmentPreviewContainer" style="padding: 0px 6px;"></div>
         <div class="chat-input">
+          <!-- Attachment button -->
+          <label for="fileInput">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+              <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z"/>
+            </svg>
+          </label>
+          <input type="file" id="fileInput" accept=".pdf" onchange="handleFileSelect(event)" />
+    
           <input
             type="text"
             id="chatInput"
@@ -442,6 +461,58 @@
           <button onclick="handleSend()">Send</button>
         </div>
       </div>
+    
+      <script>
+        // Handle file selection
+        function handleFileSelect(event) {
+          const fileInput = event.target;
+          const file = fileInput.files[0];
+          const previewContainer = document.getElementById('attachmentPreviewContainer');
+    
+          // Clear any existing preview
+          previewContainer.innerHTML = '';
+    
+          if (file && file.type === 'application/pdf') {
+            // Create the preview element
+            const preview = document.createElement('div');
+            preview.className = 'attachment-preview';
+            preview.innerHTML = `
+              <span>${file.name}</span>
+              <span class="remove-btn" onclick="removeFile()">&#10005;</span>
+            `;
+    
+            // Append the preview to the container
+            previewContainer.appendChild(preview);
+          } else {
+            alert('Please upload a valid PDF file.');
+          }
+        }
+    
+        // Handle file removal
+        function removeFile() {
+          const previewContainer = document.getElementById('attachmentPreviewContainer');
+          const fileInput = document.getElementById('fileInput');
+    
+          // Clear the preview and reset the file input
+          previewContainer.innerHTML = '';
+          fileInput.value = '';
+        }
+    
+        // Placeholder function for sending messages
+        function handleSend() {
+          const chatInput = document.getElementById('chatInput').value;
+          const fileInput = document.getElementById('fileInput').files[0];
+    
+          if (chatInput || fileInput) {
+            alert('Message sent with file: ' + (fileInput ? fileInput.name : 'No file'));
+            // Clear the input fields and preview
+            document.getElementById('chatInput').value = '';
+            removeFile();
+          } else {
+            alert('Please enter a message or attach a file.');
+          }
+        }
+      </script>
     </div>
 
     <script>
@@ -549,7 +620,7 @@
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ specialization: message.specialist }),
+              body: JSON.stringify({ searchTerm: message.specialist }),
             });
             const doctData = await doct.json();
 
@@ -568,7 +639,7 @@
           }
         } catch (error) {
           console.error(error);
-          alert("Something went wrong. Please try again!");
+        //   alert("Something went wrong. Please try again!");
         }
       }
 

@@ -212,6 +212,7 @@ UR.post("/book/appointment", async (req, res) => {
       udf2: "user defined field 2 (max 25 char)",
       udf3: "user defined field 3 (max 25 char)",
     });
+    const d = Date.now()
 
     const pay = await fetch("https://api.ekqr.in/api/create_order", {
       method: "POST",
@@ -222,13 +223,13 @@ UR.post("/book/appointment", async (req, res) => {
       },
       body: JSON.stringify({
         key: process.env.UPIKEY,
-        client_txn_id: String(Date.now()),
+        client_txn_id: String(d),
         amount: `${doctor.fee}`,
         p_info: "Appoinment with " + doctor.name,
         customer_name: user.name,
         customer_email: user.email,
         customer_mobile: user.phoneNumber,
-        redirect_url: "https://health-hive-git-main-yahyasaadmes-projects.vercel.app/dashboard",
+        redirect_url: "https://7a5b-2409-40f4-ab-3fd0-5cb6-58c5-380d-4e6d.ngrok-free.app/appoinment",
         udf1: "user defined field 1 (max 25 char)",
         udf2: "user defined field 2 (max 25 char)",
         udf3: "user defined field 3 (max 25 char)",
@@ -236,11 +237,27 @@ UR.post("/book/appointment", async (req, res) => {
     });
     const payRes = await pay.json();
     console.log(payRes);
-
-    if (payRes.status == false) {
-      return res.status(402).json({ message: "Payment Failed" });
-    }
-    // 5. Add the new appointment to the doctor's appointments array
+    setTimeout(async() => {
+        const check = await fetch("https://api.ekqr.in/api/check_order_status", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "*/*",
+              "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+            },
+            body: JSON.stringify({
+              key: process.env.UPIKEY,
+              client_txn_id: String(d)
+            }),
+          });
+        console.log(check);
+        if(check.status){
+            return
+        }
+        
+    }, 1000);
+      
+  
     doctor.appointments.push({
       userId,
       date: new Date(date),
