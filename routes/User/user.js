@@ -228,13 +228,15 @@ UR.post("/book/appointment", async (req, res) => {
         customer_name: user.name,
         customer_email: user.email,
         customer_mobile: user.phoneNumber,
-        redirect_url: "https://health-hive-rosy.vercel.app/appoinments?pyt=true",
+        redirect_url: "https://health-hive-git-main-yahyasaadmes-projects.vercel.app/dashboard",
         udf1: "user defined field 1 (max 25 char)",
         udf2: "user defined field 2 (max 25 char)",
         udf3: "user defined field 3 (max 25 char)",
       }),
     });
     const payRes = await pay.json();
+    console.log(payRes);
+
     if (payRes.status == false) {
       return res.status(402).json({ message: "Payment Failed" });
     }

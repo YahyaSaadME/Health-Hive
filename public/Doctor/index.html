@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e3f2fd; /* Light blue background */
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px; /* Hide sidebar off-screen initially */
+            width: 250px;
+            height: 100%;
+            background-color: #2196f3; /* Blue background */
+            transition: left 0.3s ease;
+            z-index: 1;
+            padding-top: 20px;
+        }
+
+        .sidebar.open {
+            left: 0; /* Slide in on open */
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #0d47a1;
+        }
+
+        /* Main Content */
+        .main-content {
+            transition: margin-left 0.3s ease;
+            padding: 20px;
+        }
+
+        .main-content.open {
+            margin-left: 250px;
+        }
+
+        /* Top Navbar */
+        .top-nav {
+            background-color: #f8f9fa;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .hamburger {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            color: #333;
+            z-index: 2; /* Ensure the icon is above the sidebar when closed */
+        }
+
+        .header-right {
+            margin-right: 20px;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            align-items: flex-start; /* Align both cards at the top */
+        }
+
+        .profile-details {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 0.75; /* Takes majority space */
+            margin-right: 20px;
+            height: 350px; /* Increased height */
+        }
+
+        .profile-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 0.25;
+            height: 350px; /* Same height as profile details card */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Align content to the center vertically */
+            align-items: center;
+        }
+
+        .profile-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover; /* Ensures the image covers the area without distortion */
+        }
+
+        .profile-card p {
+            margin: 5px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .profile-details h2 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            color: #0d47a1;
+        }
+
+        .profile-details ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .profile-details ul li {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <a href="#">Dashboard</a>
+        <a href="#">Patients</a>
+        <a href="./appointlist.html">Appointments</a>
+        <a href="./docrefill.html">Prescription Refills</a>
+        <a href="#">Medical Records</a>
+        <a href="#">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <span class="hamburger" onclick="toggleSidebar()">&#9776;</span> <!-- Hamburger Icon only on left -->
+            <div class="header-right">
+                <span>Doctor Dashboard</span>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <!-- Profile Details -->
+            <div class="profile-details">
+                <h2>Doctor Information</h2>
+                <ul>
+                    <li><strong>Name:</strong> Dr. Emily Johnson</li>
+                    <li><strong>Specialty:</strong> Cardiology</li>
+                    <li><strong>License Number:</strong> MD12345</li>
+                    <li><strong>Years of Experience:</strong> 15</li>
+                    <li><strong>Hospital Affiliation:</strong> Central City Hospital</li>
+                    <li><strong>Email:</strong> dr.johnson@centralcity.med</li>
+                    <li><strong>Phone:</strong> (555) 123-4567</li>
+                    <li><strong>Next Available Appointment:</strong> Oct 15, 2024</li>
+                </ul>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <img src="https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg" alt="Doctor Profile Picture">
+                <p><strong>Status:</strong> On Duty</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var mainContent = document.getElementById('main-content');
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

@@ -376,7 +376,7 @@
           const data = await send.json();
           if(data.token){
             localStorage.setItem('user_token',data.token)
-            window.location.href='/user/dashboard'
+            window.location.href='/dashboard'
           }else{
             alert("Somethig went worng")
 
