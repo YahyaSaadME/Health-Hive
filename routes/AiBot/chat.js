@@ -1,5 +1,6 @@
 const axios = require("axios");
 const express = require("express");
+const UserSchema = require("../../models/UserSchema");
 const CR = express.Router();
 
 class BlackBox {
@@ -119,13 +120,14 @@ class BlackBox {
 const blackbox = new BlackBox("6fc615cc-ab57-4a10-a868-cf95a0c6397e");
 CR.post("/", (req, res) => {
   try {
-    const { message } = req.body;
+    const { message,userId } = req.body;
     blackbox
       .chat(message)
-      .then((response) => {
+      .then(async(response) => {
         const cleanedResponse = blackbox.remove(JSON.stringify(response));
-        
-        res.json({ message: JSON.parse(cleanedResponse.replace(/\\n/g, '').replace(/\\"/g, '"')) });
+        const data =JSON.parse(cleanedResponse.replace(/\\n/g, '').replace(/\\"/g, '"'))
+        await UserSchema.findOneAndUpdate({_id:userId},{$push:{chats:{...data,prompt:message}}})
+        res.json({ message:  {...data}});
       })
       .catch((error) => {
         console.error("Error in chat:", error);
@@ -135,5 +137,14 @@ CR.post("/", (req, res) => {
     res.json({ mesage: "Server error" });
   }
 });
-
+CR.post("/history", async(req, res) => {
+    try {
+      const { userId } = req.body;
+      const history = await UserSchema.findOne({_id:userId})
+      res.json(history)
+    } catch (e) {
+      res.json({ mesage: "Server error" });
+    }
+});
+  
 module.exports = CR;

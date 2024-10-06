@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Appoinments</title>
+  </head>
+  <style>
+    /* Reset and Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Lexend", sans-serif;
+    }
+
+    :root {
+      --primary-blue: #bad7e9;
+      --secondary-blue: #a6cee3;
+      --dark-blue: #2b3467;
+      --light-gray: #f8fafc;
+      --white: #ffffff;
+    }
+
+    body,
+    html {
+      height: 100%;
+      background-color: var(--white);
+    }
+
+    /* Mobile First Layout */
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+    }
+
+    /* Header Styles */
+    .menu-toggle {
+      display: block;
+      position: fixed;
+      top: 10px;
+      left: 20px;
+      z-index: 1000;
+      cursor: pointer;
+      background: var(--white);
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      left: -100%;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--light-gray);
+      transition: 0.3s;
+      z-index: 999;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 24px;
+      color: var(--dark-blue);
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .menu-item:hover {
+      background-color: var(--primary-blue);
+    }
+
+    .menu-item-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    /* Chat Area Styles */
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-top: 60px; /* Space for fixed header */
+    }
+
+    .chat-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 15px 20px;
+      background: var(--white);
+      border-bottom: 1px solid var(--primary-blue);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 998;
+    }
+
+    /* Message Container Styles */
+    .messages {
+      flex: 1;
+      padding: 10px;
+      background-color: var(--light-gray);
+      overflow-y: auto;
+    }
+
+    #messageContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .box {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .box h3 {
+      color: var(--dark-blue);
+      margin-bottom: 10px;
+    }
+
+    .box ul {
+      padding-left: 20px;
+    }
+
+    /* Input Area Styles */
+    .chat-input {
+      padding: 15px;
+      background: var(--white);
+      border-top: 1px solid var(--primary-blue);
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--primary-blue);
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .chat-input button {
+      padding: 12px 20px;
+      background: var(--primary-blue);
+      color: var(--dark-blue);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    /* Loading Spinner */
+    .loader {
+      border: 4px solid var(--light-gray);
+      border-top: 4px solid var(--dark-blue);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Welcome Message */
+    #beforeMessage {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    #beforeMessage img {
+      max-width: 80px;
+      margin-bottom: 20px;
+    }
+
+    #beforeMessage h4 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    /* Desktop Styles */
+    @media (min-width: 768px) {
+      .container {
+        flex-direction: row;
+      }
+
+      .menu-toggle {
+        display: none;
+      }
+
+      .sidebar {
+        position: relative;
+        left: 0;
+        width: 260px;
+        border-right: 1px solid var(--primary-blue);
+      }
+
+      .chat-area {
+        flex: 1;
+        padding-top: 0;
+      }
+
+      .chat-header {
+        position: relative;
+      }
+
+      #messageContainer {
+        flex-direction: row;
+      }
+
+      #messageContainer > div {
+        width: 50%;
+      }
+    }
+  </style>
+  <style>
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      padding: 20px;
+      width: 100%;
+      border-left: 6px solid #4caf50;
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+    .card p {
+      margin: 5px 0;
+      color: #555;
+    }
+    .card .appointment-time {
+      color: #4caf50;
+      font-weight: bold;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <span class="brand">Medical Assistant</span>
+        </div>
+        <nav class="nav-menu">
+            <a href="/chat/history" style="text-decoration: none">
+              <div class="menu-item">
+                <img
+                  src="https://img.icons8.com/ios-filled/50/000000/alarm.png"
+                  alt="Appointments"
+                  class="menu-item-icon"
+                  style="
+                    filter: brightness(0) saturate(100%) invert(30%) sepia(100%)
+                      saturate(1700%) hue-rotate(190deg) brightness(95%)
+                      contrast(80%);
+                  "
+                />
+                Personal Details
+              </div>
+              <!-- New AI Chat menu item -->
+              <a href="/chat" style="text-decoration: none">
+                <div class="menu-item">
+                  <img
+                    src="https://img.icons8.com/ios-filled/50/000000/chat.png"
+                    alt="AI Chat"
+                    class="menu-item-icon"
+                    style="
+                      filter: brightness(0) saturate(100%) invert(30%) sepia(100%)
+                        saturate(1700%) hue-rotate(190deg) brightness(95%)
+                        contrast(80%);
+                    "
+                  />
+                  AI Chat
+                </div>
+              </a>
+  
+              <!-- New Search Doctors menu item -->
+              <a href="/search" style="text-decoration: none;">
+                <div class="menu-item">
+                  <img
+                    src="https://img.icons8.com/ios-filled/50/000000/stethoscope.png"
+                    alt="Search Doctors"
+                    class="menu-item-icon"
+                    style="
+                      filter: brightness(0) saturate(100%) invert(30%) sepia(100%)
+                        saturate(1700%) hue-rotate(190deg) brightness(95%)
+                        contrast(80%);
+                    "
+                  />
+                  Search Doctors
+                </div>
+              </a>
+  
+              <a href="/chat/history" style="text-decoration: none;">
+            <div class="menu-item">
+                <img
+                  src="https://img.icons8.com/ios-filled/50/000000/medical-history.png"
+                  alt="Chat History"
+                  class="menu-item-icon"
+                  style="
+                    filter: brightness(0) saturate(100%) invert(30%) sepia(100%)
+                      saturate(1700%) hue-rotate(190deg) brightness(95%)
+                      contrast(80%);
+                  "
+                />
+                Medical History
+              </div>
+          </a>
+          <a href="/appoinment" style="text-decoration: none;">
+  
+            <div class="menu-item">
+              <img
+                src="https://img.icons8.com/ios-filled/50/000000/alarm.png"
+                alt="Appointments"
+                class="menu-item-icon"
+                style="
+                  filter: brightness(0) saturate(100%) invert(30%) sepia(100%)
+                    saturate(1700%) hue-rotate(190deg) brightness(95%)
+                    contrast(80%);
+                "
+              />
+              Appointments
+            </div>
+          </a>
+  
+            <div class="menu-item">
+              <img
+                src="https://img.icons8.com/ios-filled/50/000000/test-results.png"
+                alt="Rrescription Refiller"
+                class="menu-item-icon"
+                style="
+                  filter: brightness(0) saturate(100%) invert(30%) sepia(100%)
+                    saturate(1700%) hue-rotate(190deg) brightness(95%)
+                    contrast(80%);
+                "
+              />
+              Rrescription Refiller
+            </div>
+  
+            <div class="menu-item">
+              <img
+                src="https://img.icons8.com/ios-filled/50/000000/logout-rounded.png"
+                alt="Logout"
+                class="menu-item-icon"
+                style="
+                  filter: brightness(0) saturate(100%) invert(30%) sepia(100%)
+                    saturate(1700%) hue-rotate(190deg) brightness(95%)
+                    contrast(80%);
+                "
+              />
+              Logout
+            </div>
+          </nav>
+        <div class="upgrade-box box">
+          <h3>Premium Care</h3>
+          <p>Upgrade for priority support</p>
+        </div>
+      </div>
+
+      <div class="chat-area">
+        <div class="chat-header">
+          <span>Appoinment list</span>
+        </div>
+
+        <div style="margin: 10px;display: grid;grid-template-columns: 1fr 1fr;" id="cards">
+            
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const verify = async () => {
+        try {
+          const send = await fetch("/user/profile", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: localStorage.getItem("user_token"),
+            },
+          });
+          const data = await send.json();
+          console.log(data);
+          
+          data.appointments.map(async(e)=>{
+            const doc = await getDoct(e.DocId)
+            document.getElementById('cards').innerHTML+=`
+            <div class="card" style="margin: 2px;">
+
+                <h2>Name: ${doc.name}</h2>
+                <p><strong>Email:</strong> ${doc.email}</p>
+                <p><strong>Address:</strong> ${doc.address}</p>
+                <p><strong>Blood Group:</strong> A-</p>
+                <p><strong>Date:</strong> 2024-10-07</p>
+                <p>
+                  <strong>Time:</strong>
+                  <span class="appointment-time">08:34 AM</span>
+                </p>
+              </div>
+            `
+          })
+        } catch (error) {
+            console.log(error);
+            
+          alert("Somethig went worng");
+        }
+      };
+      verify();
+      const getDoct=async(id)=>{
+        try {
+          const send = await fetch("/doctor/get", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body:JSON.stringify({_id:id})
+          });
+          const data = await send.json();
+          return data
+        } catch (error) {
+          alert("Somethig went worng");
+        }
+      }
+    </script>
+  </body>
+</html>

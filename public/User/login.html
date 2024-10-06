@@ -274,149 +274,42 @@
       </div>
       <div class="form-section">
         <div class="form-container">
-          <h2>Registration</h2>
+          <h2>Login</h2>
           <form id="registrationForm">
-            <div class="form-group">
-              <label for="name">Full Name</label>
-              <input type="text" id="name" required />
-            </div>
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" id="email" required />
             </div>
             <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input
-                type="tel"
-                id="phone"
-                pattern="[0-9]{10}"
-                placeholder="Enter 10-digit number"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="dob">Date of Birth</label>
-              <input type="date" id="dob" required />
-            </div>
-            <div class="form-group">
-              <label for="address">Address</label>
-              <input type="text" id="address" required />
-            </div>
-            <div class="form-group">
-              <label for="bloodGroup">Blood Group</label>
-              <select id="bloodGroup" required>
-                <option value="">Select Blood Group</option>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-              </select>
-            </div>
-            <div class="form-group">
               <label for="password">Password</label>
               <input type="password" id="password" required />
             </div>
-            <div class="form-group">
-              <label for="confirm-password">Confirm Password</label>
-              <input type="password" id="confirm-password" required />
-            </div>
             <button type="submit" class="submit-btn" id="registerBtn">
-              <p id="spi-text">Register</p>
-              <div class="spinner" id="spinner"></div>
+              <p id="spi-text">Login</p>
             </button>
           </form>
           <div class="login-link">
-            Already registered? <a href="/login">Login</a>
+            Already registered? <a href="/signup">Signup</a>
           </div>
         </div>
       </div>
     </div>
-    <div
-      id="req"
-      style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      "
-    >
-
-
-      <div class="otp-container">
-        <h2>OTP Verification</h2>
-        <p>Please enter the 6-digit OTP sent to your email.</p>
-
-        <div class="otp-inputs">
-          <input type="text" maxlength="6" id="otp-inpt"/>
-        </div>
-
-        <button class="submit-btn" onclick="verify()">Verify</button>
-
-        <div class="resend">
-          <p>Didn't receive the OTP? <a href="#">Resend OTP</a></p>
-        </div>
-      </div>
-    </div>
-
     <script>
-        const verify=async()=>{
-            try {
-                
-                const send = await fetch("/user/verify/otp", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({otp:document.getElementById('otp-inpt').value,email:document.getElementById('email').value }),
-          });
-          const data = await send.json();
-          if(data.token){
-            localStorage.setItem('user_token',data.token)
-            window.location.href='/user/dashboard'
-          }else{
-            alert("Somethig went worng")
-
-          }
-            } catch (error) {
-                alert("Somethig went worng")
-            }
-
-        }
-      document.getElementById("req").style.display = "none";
-      document.getElementById("spinner").style.display = "none";
+        
       document
         .getElementById("registrationForm")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
-          document.getElementById("spinner").style.display = "inline-block";
           document.getElementById("spi-text").style.display = "none";
 
           const password = document.getElementById("password").value;
-          const confirmPassword =
-            document.getElementById("confirm-password").value;
 
-          if (password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
-          }
-
-          // Collect form data
           const formData = {
-            name: document.getElementById("name").value,
             email: document.getElementById("email").value,
-            phoneNumber: document.getElementById("phone").value,
-            dob: document.getElementById("dob").value,
-            address: document.getElementById("address").value,
-            bloodGroup: document.getElementById("bloodGroup").value,
             password: password,
           };
-          console.log(JSON.stringify({ ...formData }));
 
-          const send = await fetch("/user/signup", {
+          const send = await fetch("/user/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -426,10 +319,11 @@
           const data = await send.json();
           console.log(data);
 
-          if (data.msg) {
-            document.getElementById("req").style.display = "flex";
-            document.getElementById("con").style.display = "none";
-          }
+          if (data.token) {
+            localStorage.setItem("user_token",data.token)
+            window.location.href = '/dashboard'
+
+        }
 
           console.log("Form submitted successfully", formData);
         });

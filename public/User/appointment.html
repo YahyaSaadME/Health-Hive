@@ -11,6 +11,34 @@
       rel="stylesheet"
     />
     <style>
+      .search-container {
+        display: flex;
+        align-items: center;
+        width: 300px;
+        background-color: white;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        padding: 5px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+      }
+
+      .search-icon {
+        font-size: 18px;
+        color: #007bff;
+        margin-right: 10px;
+      }
+
+      /* Optional: Add some hover effect on the container */
+      .search-container:hover {
+        border-color: #0056b3;
+      }
       /* Reset and Base Styles */
       * {
         box-sizing: border-box;
@@ -254,6 +282,98 @@
           width: 50%;
         }
       }
+      .open-modal-btn:hover {
+        background-color: #0056b3;
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-header h2 {
+        margin: 0;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .close-btn:hover {
+        color: red;
+      }
+
+      .booking-picker {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      .picker-label {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .picker-input {
+        padding: 8px;
+        width: 100%;
+        max-width: 300px;
+        margin-top: 5px;
+        font-size: 16px;
+      }
+
+      .booking-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .booking-button:hover {
+        background-color: #0056b3;
+      }
+
+      .booking-message {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+      }
+
+      .unavailable-slot {
+        color: red;
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -383,69 +503,152 @@
         <div class="chat-header">
           <span>Medical Consultation</span>
         </div>
+        <!-- <button class="open-modal-btn" onclick="openModal()">
+          Book Appointment
+        </button> -->
 
-        <div class="messages">
-          <div id="messageContainer" style="display: none">
-            <div>
-              <div class="box">
-                <h3>Medicines</h3>
-                <ul id="medicine"></ul>
-              </div>
-              <div class="box">
-                <h3>Consultation Priority</h3>
-                <p id="priority"></p>
-              </div>
-              <div class="box">
-                <h3>Specialist Required</h3>
-                <p id="sep"></p>
-              </div>
-              <div class="box">
-                <h3>Causes</h3>
-                <ul id="causes"></ul>
-              </div>
-              <div class="box">
-                <h3>Diet</h3>
-                <ul id="diet"></ul>
-              </div>
+        <div style="display: flex; justify-content: center">
+          <div
+            class="search-container"
+            style="width: 80%; border-radius: 4px; margin: 10px"
+          >
+            <div style="display: flex; align-items: center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-geo-alt"
+                viewBox="0 0 16 16"
+                style="width: 50px"
+              >
+                <path
+                  d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"
+                />
+                <path
+                  d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+                />
+              </svg>
+              <div id="locationOutput" class="location-output"></div>
             </div>
-            <div class="box">
-              <h3>Doctor List</h3>
-              <ul id="doctorList">
-                <li style="list-style: none;">
-                    <h4>Dr. John Doe, MBBS, MD.</h4>
-                    <h5>Cosntation fee: ₹ 400 </h5>
-                    <h5>Cardioligist</h5>
-                    <h5>OneHospital - Tambarm Chennai Tamil Nadu, 635802</h5>
-                    <div style="padding: 5px 10px; width: 100%;background-color: black;color: white;">Get Appointment</div>                    
-                </li>
-              </ul>
+            <hr
+              style="
+                width: 2px;
+                border: 1px solid rgb(146, 146, 146);
+                height: 70%;
+                margin-left: 4px;
+              "
+            />
+            <div style="display: flex; align-items: center">
+              <svg
+                style="margin-left: 10px"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-search"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+                />
+              </svg>
+              <input
+                type="text"
+                id="search"
+                onchange="find()"
+                class="search-input"
+                placeholder="Search..."
+              />
             </div>
-          </div>
-
-          <div id="beforeMessage">
-            <img src="/assets/HealthHiveLogo.png" alt="HealthHive Logo" />
-            <h4>Consult with your AI.</h4>
-            <p>Ask a question below</p>
-          </div>
-
-          <div id="loader" style="display: none">
-            <div class="loader"></div>
           </div>
         </div>
+        <ul style="margin: 10px" id="doctors"></ul>
+      </div>
+    </div>
+    <div id="bookingModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Book Your Appointment</h2>
+          <button class="close-btn" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="booking-picker">
+            <label for="appointmentDate" class="picker-label"
+              >Select Date:</label
+            >
+            <input type="date" id="appointmentDate" class="picker-input" />
 
-        <div class="chat-input">
-          <input
-            type="text"
-            id="chatInput"
-            placeholder="Describe your symptoms or ask a medical question..."
-          />
-          <button onclick="handleSend()">Send</button>
+            <label for="appointmentTime" class="picker-label"
+              >Select Time:</label
+            >
+            <input type="time" id="appointmentTime" class="picker-input" />
+
+            <button id="bookingModalId" class="booking-button">
+              Book Appointment
+            </button>
+          </div>
+          <div id="appointmentMessage" class="booking-message"></div>
         </div>
       </div>
     </div>
 
     <script>
+      const find = async () => {
+        try {
+          const send = await fetch("/doctor/info", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              searchTerm: document.getElementById("search").value,
+            }),
+          });
+          const data = await send.json();
+          data.map((e) => {
+            document.getElementById("doctors").innerHTML += `          <li
+            style="
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              border-radius: 6px;
+              padding: 10px;
+            "
+          >
+            <div style="width: 100%; padding: 10px;display: flex;justify-content: space-between;">
+              <div style="margin-right: 10px;">
+                <h4>${e.name} , ${e.degrees}</h4>
+                <p>fee : ${e.fee}</p>
+                <p
+                  style="
+                    padding: 2px 5px;
+                    background-color: rgb(60, 175, 60);
+                    color: rgb(255, 255, 255);
+                    width: fit-content;
+                  "
+                >
+              ${e.specialization}
+                </p>
+              </div>
+              <div>
+                <p>${e.hospital}</p>
+                <p>${e.address}</p>
+              </div>
+            </div>
+            <div style="display: flex;justify-content: space-between;align-items: center;padding: 10px;">
+                <p>${e.availabilityFrom} - ${e.availabilityTo}</p>
+                <button onclick="openModal('${e._id}','${e.fee}')" style="padding: 4px 10px;background-color: black;color: white;border-radius: 5px;">Book Appoinment</button>
+            </div>
+          </li>`;
+          });
+        } catch (error) {
+          alert("Somethig went worng");
+        }
+      };
+    </script>
+
+    <script>
       let userId = "";
+      let userData = {};
 
       if (
         localStorage.getItem("user_token") === "" ||
@@ -464,6 +667,7 @@
             });
             const data = await send.json();
             userId = data._id;
+            userData = data;
           } catch (error) {
             alert("Somethig went worng");
           }
@@ -489,11 +693,9 @@
         document.getElementById("beforeMessage").style.display = "none";
         document.getElementById("loader").style.display = "block";
         document.getElementById("messageContainer").style.display = "none";
-        document.getElementById("doctorList").innerHTML = ""
+        document.getElementById("doctorList").innerHTML = "";
 
-        const ids = [
-          "causes", "diet", "medicine", "priority", "sep"
-        ]
+        const ids = ["causes", "diet", "medicine", "priority", "sep"];
         ids.map((id) => {
           document.getElementById(id).innerHTML = "";
         });
@@ -555,13 +757,13 @@
 
             doctData.map((e, i) => {
               document.getElementById("doctorList").innerHTML += `
-                <li style="list-style: none;" class="box">
-                    <h4>${e.name}, ${e.degrees}</h4>
-                    <h5>Cosntation fee: ₹ ${e.fee} </h5>
-                    <h5>${e.specialization}</h5>
-                    <h5>${e.address}</h5>
-                    <div style="padding: 5px 10px; width: 100%;background-color: black;color: white;">Get Appointment</div>                    
-                </li>`;
+              <li style="list-style: none;" class="box">
+                  <h4>${e.name}, ${e.degrees}</h4>
+                  <h5>Cosntation fee: ₹ ${e.fee} </h5>
+                  <h5>${e.specialization}</h5>
+                  <h5>${e.address}</h5>
+                  <div style="padding: 5px 10px; width: 100%;background-color: black;color: white;">Get Appointment</div>                    
+              </li>`;
             });
           } else {
             window.location.href = "/";
@@ -573,18 +775,178 @@
       }
 
       // Add enter key support for sending messages
-      document
-        .getElementById("chatInput")
-        .addEventListener("keypress", function (e) {
-          if (e.key === "Enter") {
-            handleSend();
-          }
-        });
 
       function logout() {
         localStorage.removeItem("user_token");
         window.location.href = "/";
       }
+    </script>
+
+    <script>
+      function openModal(id, fee) {
+        document.getElementById("bookingModal").style.display = "flex";
+        document
+          .getElementById("bookingModalId")
+          .addEventListener("click", (e) => {
+            bookAppointment(id, fee);
+          });
+      }
+
+      // Close Modal
+      function closeModal() {
+        document.getElementById("bookingModal").style.display = "none";
+      }
+
+      // Check if a slot is unavailable
+      async function isSlotUnavailable(date, time, id) {
+        console.log(id);
+        try {
+          const selectedSlot = `${date} ${time}`;
+          const send = await fetch("/doctor/get", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ _id: id }),
+          });
+          const res = await send.json();
+          const unavailableSlots = res.appointments.map((e) => e.date + e.time);
+          return unavailableSlots.includes(selectedSlot);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      // Book Appointment
+      async function bookAppointment(id, fee) {
+        const dateInput = document.getElementById("appointmentDate").value;
+        const timeInput = document.getElementById("appointmentTime").value;
+        const appointmentMessage =
+          document.getElementById("appointmentMessage");
+
+        if (!dateInput || !timeInput) {
+          alert("Please select both date and time.");
+          return;
+        }
+
+        const appointmentDateTime = new Date(`${dateInput}T${timeInput}`);
+        const formattedDate = appointmentDateTime.toLocaleDateString();
+        const formattedTime = appointmentDateTime.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
+        // Check if the selected slot is unavailable
+        if (!isSlotUnavailable(dateInput, timeInput, id)) {
+          appointmentMessage.innerHTML = `<span class="unavailable-slot">This slot is unavailable!</span>`;
+        } else {
+          try {
+            appointmentMessage.textContent = `Appointment booked for: ${formattedDate} at ${formattedTime}`;
+
+            if (userData != {}) {
+              const send = await fetch("/user/book/appointment", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  doctorId: id,
+                  userId: userId,
+                  date: dateInput,
+                  time: timeInput,
+                }),
+              });
+              const res = await send.json();
+              console.log(res);
+              if (res.message == "Appointment booked successfully") {
+                window.location.href = res.payRes.data.payment_url;
+              } else {
+                alert("Payment failed...");
+              }
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+
+      // Close modal when clicking outside of the modal content
+      window.onclick = function (event) {
+        const modal = document.getElementById("bookingModal");
+        if (event.target === modal) {
+          closeModal();
+        }
+      };
+    </script>
+
+    <script>
+      function getLocation() {
+        const locationOutput = document.getElementById("locationOutput");
+
+        // Check if Geolocation is supported by the browser
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+          locationOutput.innerHTML =
+            "<p class='error'>Geolocation is not supported by this browser.</p>";
+        }
+      }
+
+      // Show the position (latitude and longitude) and get the location details
+      function showPosition(position) {
+        const locationOutput = document.getElementById("locationOutput");
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`;
+
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data && data.address) {
+              const address = data.address;
+              console.log(address);
+
+              locationOutput.innerHTML += `
+                        <p>${
+                          address.city || address.town || address.village || ""
+                        }, ${address.state}, ${address.country || ""}</p>
+                    `;
+            } else {
+              locationOutput.innerHTML +=
+                "<p class='error'>Could not retrieve location details.</p>";
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching location data:", error);
+            locationOutput.innerHTML +=
+              "<p class='error'>Error fetching location details.</p>";
+          });
+      }
+
+      // Handle errors
+      function showError(error) {
+        const locationOutput = document.getElementById("locationOutput");
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            locationOutput.innerHTML =
+              "<p class='error'>User denied the request for Geolocation.</p>";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            locationOutput.innerHTML =
+              "<p class='error'>Location information is unavailable.</p>";
+            break;
+          case error.TIMEOUT:
+            locationOutput.innerHTML =
+              "<p class='error'>The request to get user location timed out.</p>";
+            break;
+          case error.UNKNOWN_ERROR:
+            locationOutput.innerHTML =
+              "<p class='error'>An unknown error occurred.</p>";
+            break;
+        }
+      }
+      getLocation();
     </script>
   </body>
 </html>

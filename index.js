@@ -21,7 +21,24 @@ app.get('/chat', (req, res) => {
 app.get('/chat/history', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'chathistory.html'));
 });
-
+app.get('/signup',(req,res)=>{
+    res.sendFile(path.join(__dirname, 'public', './User/registration.html'));
+})
+app.get('/login',(req,res)=>{
+    res.sendFile(path.join(__dirname, 'public', './User/login.html'));
+})
+app.get('/dashboard',(req,res)=>{
+    res.sendFile(path.join(__dirname, 'public', './User/dashboard.html'));
+})
+app.get('/search',(req,res)=>{
+    res.sendFile(path.join(__dirname, 'public', './User/appointment.html'));
+})
+app.get('/appoinment',(req,res)=>{
+    res.sendFile(path.join(__dirname, 'public', './User/listappoinments.html'));
+})
+app.get('/doctor/dashboard',(req,res)=>{
+    res.sendFile(path.join(__dirname, 'public', './Doctor/dashboard.html'));
+})
 
 app.listen(process.env.PORT  || 5000,()=>{
     console.log('Server listening in 5000...');

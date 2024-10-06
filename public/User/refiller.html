@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - Prescription Refill</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e3f2fd; /* Light blue background */
+            height: 100vh;
+            display: flex;
+            flex-direction: column; /* Align items vertically */
+            align-items: center; /* Center items horizontally */
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px; /* Hide sidebar off-screen initially */
+            width: 250px;
+            height: 100%;
+            background-color: #2196f3; /* Blue background */
+            transition: left 0.3s ease;
+            z-index: 1;
+            padding-top: 20px;
+        }
+
+        .sidebar.open {
+            left: 0; /* Slide in on open */
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #0d47a1;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background-color: #f8f9fa;
+            padding: 10px 20px; /* Added padding for better alignment */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%; /* Full width */
+            position: relative; /* Keep it relative to the body */
+            z-index: 2; /* Ensure it is above other elements */
+        }
+
+        .hamburger {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            color: #333;
+        }
+
+        .header-right {
+            margin-right: 20px;
+            font-weight: bold; /* Make the title bold for better visibility */
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center; /* Center the refill section */
+            align-items: center;
+            flex: 1; /* Allow it to take remaining height */
+        }
+
+        /* Prescription Refill Section */
+        .refill-section {
+            background-color: #ffffff;
+            width: 400px; /* Increased width */
+            height: 400px; /* Increased height */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center; /* Center align items */
+        }
+
+        .refill-section h2 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            color: #0d47a1;
+            text-align: center; /* Center align title */
+        }
+
+        .refill-details {
+            margin-bottom: 20px;
+            text-align: center; /* Center align text */
+        }
+
+        .refill-details p {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center; /* Center buttons */
+            width: 100%; /* Full width for the button container */
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100px; /* Fixed width for buttons */
+            margin: 0 10px; /* Margin between buttons */
+            transition: background-color 0.3s; /* Added transition for hover effect */
+        }
+
+        .approve {
+            background-color: #4caf50; /* Green */
+            color: white;
+        }
+
+        .approve:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        .decline {
+            background-color: #f44336; /* Red */
+            color: white;
+        }
+
+        .decline:hover {
+            background-color: #e53935; /* Darker red on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <a href="#">Dashboard</a>
+        <a href="#">Patients</a>
+        <a href="#">Appointments</a>
+        <a href="#">Prescription Refills</a>
+        <a href="#">Medical Records</a>
+        <a href="#">Lab Results</a>
+        <a href="#">Billing</a>
+        <a href="#">Settings</a>
+        <a href="#">Logout</a>
+    </div>
+
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <span class="hamburger" onclick="toggleSidebar()">&#9776;</span> <!-- Hamburger Icon only on left -->
+        <div class="header-right">
+            <span>Prescription Refill Request</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <!-- Prescription Refill Section -->
+        <div class="refill-section">
+            <h2>Prescription Refill Details</h2>
+            <div class="refill-details">
+                <p><strong>Patient Name:</strong> John Doe</p>
+                <p><strong>Prescription ID:</strong> RX987654</p>
+                <p><strong>Medication:</strong> Lisinopril</p>
+                <p><strong>Dosage:</strong> 10mg</p>
+                <p><strong>Uploaded Files:</strong> <a href="#">View Files</a></p>
+            </div>
+            <div class="button-container">
+                <button class="approve" onclick="approveRequest()">Approve</button>
+                <button class="decline" onclick="declineRequest()">Decline</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var mainContent = document.getElementById('main-content');
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('open');
+        }
+
+        function approveRequest() {
+            alert("Prescription request approved.");
+            // Implement further logic for approval
+        }
+
+        function declineRequest() {
+            alert("Prescription request declined.");
+            // Implement further logic for decline
+        }
+    </script>
+</body>
+</html>
